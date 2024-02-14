@@ -1,0 +1,209 @@
+ADO.NET
+-------
+
+is a framework with which u can interact with your database server for any DML operations.
+
+CRUD-Create/Retrieve/Update/Delete
+	Insert/select/update/delete
+
+
+		App         
+		Server			DB Server
+Client----->			----->
+
+
+   *****************************************
+Application Server
+
+
+1) UI
+
+2) Validation
+
+2 A) Database Access Logic----Service
+All Devices(iphone,android,laptops,desktops etc)
+
+(Service Providers)
+  B) Third party softwares----> Powered by googlepay/paytm/phone pe etc
+	Debit Card/ Credit Card/Paypal etc
+3) DB---> Tables
+
+
+			QR
+		Paytm        GooglePay
+
+		Dr	--->	Cr--->11.30
+		Cr	<---    Dr <--- 11.45
+
+Update(Actual Trn)
+			I            I     	(History)
+
+
+-------------------------------------------------------------
+
+
+ADO.NET
+Connected: Real time data:DB SERVER
+	anything to life, money of the users
+Share Trading App: (Connected)
+9:53 10 shares of A Co---> 100
+9.54  10 shares of A Co---> 100/110/90
+
+
+RTGS: Real time gross settlement--->
+NEFT: 2 hrs
+Email---->
+
+
+
+
+Disconnected:
+Not Connected: DB server
+HR---- Insert/  
+Friend----
+
+-----------------------------------------------------------------
+Provider Model: work with all databases,because of the provider model.(Provided classes for other database server connections also)
+Drivers(which u need to install)
+Oracle: OracleConnection:System.Data.OracleClient
+	OracleCommand
+	OracleDataReader
+Access: OledbConnection: System.Data.OleDB;
+MySQL: MySqlConnection:System.Data.MySQL
+
+
+MSSQLSERver--Microsoft
+	Classes: 
+using System.Data.SqlClient
+	SqlConnection : is used to connect to the ms sql database server.(Connection STring)
+	SqlCommand: to send commands/statements to database server
+        SqlDataReader: when we receive the data from the database server, data is read using Data Reader
+	SqlDataAdapter: Adapter( has Charger)---- to send sql commands/statements in case of disconnected
+        SqlCommandBuilder: builder is used to build sql command automatically.
+
+using System.Data
+	DataSet: is a collection of one or more data Tables(tables of data) stored inside DataSet. One dataset and have any number of datatables 
+	related to a single Database.
+	DataTable
+	DataRow
+	DataColumn
+	DataView
+	DataRelations
+
+
+	Connected                                       Disconnected
+                                  SQLCONNECTION
+
+       SqlCommand					SqlDataAdapter
+       SqlDataReader                                     DataSet
+	  I/U/D/S 					DataTable	10--11(Insert) /10-10(update)/10-9 (delete)
+							
+							SQlCommandBuilder generate the commands for the operations performed on the datatable								and submit those operations/commands to the database server.
+--------------------------------------------------------------------------------------------------------------------------------------
+3 tier architecture
+
+1) UI Layer----Views
+2) Validation Layer------Models
+
+
+3) Data Access Logic Layer------ Controller calling Class Library
+							
+1) Reusability
+2) Security
+3) Easy to maintain
+4) Debugging easy
+
+Console App calling Class Library
+
+
+1) Create MVC App
+   Add a Controller--- > MVC Controller with read/write actions
+
+2) Create Class Library
+   add new item in the class library--app.config---> paste the connection string in  connectionstrings element of the app.config file
+
+CREATE PROCEDURE [dbo].sp_InsertDept
+	@p_Dname varchar(25),
+	@p_Loc  varchar(20),
+	@p_MgrName varchar(20)
+AS
+	insert into Dept values(@p_Dname,@p_Loc,@p_MgrName);
+RETURN 0
+
+3) Write code in library
+******(4) Reference, Project Dependency etc)./Reference lib in app
+
+4) Create a Model Class with validations
+5) Generate the View
+6) Call the library method in the create action(post)
+
+
+
+-----------------------------------------------
+
+
+
+
+App.config: 1 place-1 time
+
+HR database:
+10 Tables
+
+Insert/Update/Delete/Find/ShowAll----5
+
+50 Operations---
+1) 50 times connectionstring ----SqlConnection object
+
+2) servername changes-------> 50 times
+3) change password----->50 times
+4) username----> 50 times
+
+
+
+
+
+
+
+
+
+							
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
