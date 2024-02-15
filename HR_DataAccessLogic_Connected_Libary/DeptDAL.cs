@@ -145,6 +145,26 @@ namespace HR_DataAccessLogic_Connected_Libary
             SqlConnection cn = new SqlConnection(str);
 
             //SqlCommand cmd = new SqlCommand("select * from dept where deptno= " + deptno, cn);
+            //Stored Procedure Code:
+//            CREATE PROCEDURE[dbo].FindDeptByDeptno
+//    @p_Deptno int,
+//    @p_Dname varchar(25) output,
+//	@p_Loc varchar(25) output,
+//	@p_MgrName varchar(25) output
+
+//AS
+
+//    SELECT
+//    @p_Dname = Dname,
+//    @p_Loc = Loc,
+//    @p_MgrName = MgrName from Dept
+
+//    where
+//    Deptno = @p_Deptno
+//RETURN 0
+
+
+
             SqlCommand cmd = new SqlCommand("[dbo].[FindDeptByDeptno]", cn);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@p_Deptno", deptno);
