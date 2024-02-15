@@ -1,0 +1,50 @@
+﻿@model AdoConnectedDemo.Models.DeptModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DeptModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Deptno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Deptno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Dname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Dname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Loc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Loc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MgrName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MgrName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.Deptno }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
