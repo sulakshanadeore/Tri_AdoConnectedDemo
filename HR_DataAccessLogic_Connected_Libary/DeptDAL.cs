@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
+using System.Net.Http.Headers;
+using System.Xml.Linq;
 namespace HR_DataAccessLogic_Connected_Libary
 {
     public class DeptDAL
@@ -100,7 +102,22 @@ namespace HR_DataAccessLogic_Connected_Libary
             List<Dept> deptlist=new List<Dept>();
             string str = ConfigurationManager.ConnectionStrings["HRConnectionString"].ConnectionString;
             SqlConnection cn = new SqlConnection(str);
-            SqlCommand cmd = new SqlCommand("select * from dept", cn);
+
+
+            //  SqlCommand cmd = new SqlCommand("select * from dept", cn);
+            //Inline table valued function in sql server
+
+//            CREATE FUNCTION[dbo].ShowDeptData
+//()
+//RETURNS TABLE AS RETURN
+//            (
+//    SELECT Deptno, Dname, Loc, MgrName from Dept
+//)
+
+
+
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM [dbo].[ShowDeptData]()", cn);
             cn.Open();
             SqlDataReader dr=cmd.ExecuteReader();
             while (dr.Read())
@@ -127,19 +144,36 @@ namespace HR_DataAccessLogic_Connected_Libary
             string str = ConfigurationManager.ConnectionStrings["HRConnectionString"].ConnectionString;
             SqlConnection cn = new SqlConnection(str);
 
-            SqlCommand cmd = new SqlCommand("select * from dept where deptno= " + deptno, cn);
-            cn.Open();
-            SqlDataReader dr=cmd.ExecuteReader();
-            if (dr.HasRows)
-            {
-                dr.Read();
-            
-                dept.Deptno = Convert.ToInt32(dr["Deptno"]);
-                dept.Dname = dr["Dname"].ToString();
-                dept.Loc = dr["Loc"].ToString();
-                dept.MgrName = dr["MgrName"].ToString();
+            //SqlCommand cmd = new SqlCommand("select * from dept where deptno= " + deptno, cn);
+            SqlCommand cmd = new SqlCommand("[dbo].[FindDeptByDeptno]", cn);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@p_Deptno", deptno);
+            cmd.Parameters.Add("@p_Dname",System.Data.SqlDbType.VarChar,25);
+          cmd.Parameters["@p_Dname"].Direction = System.Data.ParameterDirection.Output;
 
-            }
+            cmd.Parameters.Add("@p_Loc", System.Data.SqlDbType.VarChar, 25);
+             cmd.Parameters["@p_Loc"].Direction = System.Data.ParameterDirection.Output;
+
+            cmd.Parameters.Add("@p_MgrName", System.Data.SqlDbType.VarChar, 25);
+           cmd.Parameters["@p_MgrName"].Direction = System.Data.ParameterDirection.Output;
+            cn.Open();
+            cmd.ExecuteNonQuery();
+            dept.Deptno = deptno;
+            dept.Dname = cmd.Parameters["@p_Dname"].Value.ToString();
+            dept.Loc = cmd.Parameters["@p_Loc"].Value.ToString();
+            dept.MgrName = cmd.Parameters["@p_MgrName"].Value.ToString();
+
+            //if (dr.HasRows)
+            //{
+            //    dr.Read();
+
+
+            //    //dept.Deptno = Convert.ToInt32(dr["Deptno"]);
+            //dept.Dname = dr["Dname"].ToString();
+            //dept.Loc = dr["Loc"].ToString();
+            //dept.MgrName = dr["MgrName"].ToString();
+
+            //    }
             cn.Close();
             cn.Dispose();
             return dept;
