@@ -22,8 +22,8 @@ namespace AdoConnectedDemo.Controllers
             
             }
 
-
-
+             int c= dal.DeptNumber();
+            ViewBag.DeptCount = c;
             return View(deptModels);
         }
 

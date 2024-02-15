@@ -138,6 +138,34 @@ namespace HR_DataAccessLogic_Connected_Libary
             return deptlist;
              
         }
+
+        public int DeptNumber() {
+            string str = ConfigurationManager.ConnectionStrings["HRConnectionString"].ConnectionString;
+            SqlConnection cn = new SqlConnection(str);
+            SqlCommand cmd = new SqlCommand("Select count(Deptno) from Dept",cn);
+            cn.Open();
+           int cnt=Convert.ToInt32(cmd.ExecuteScalar());
+            cn.Close();
+            cn.Dispose();
+
+           // SqlCommand cmd = new SqlCommand("select [dbo].CountNumberOfDepts()", cn);
+           // cn.Open();
+           // SqlDataReader dr=cmd.ExecuteReader();
+           // dr.Read();
+           //int cnt= Convert.ToInt32(dr[0]);
+            
+
+           // cn.Close();
+           // cn.Dispose();
+           
+
+            return cnt;
+
+
+
+        }
+
+
        public Dept FindDept(int deptno) {
 
             Dept dept = new Dept();
